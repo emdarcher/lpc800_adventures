@@ -10,6 +10,10 @@ CROSS = arm-none-eabi-
 CPU = -mthumb -mcpu=cortex-m0plus -MD
 FPU = # -mfloat-abi=soft
 
+LPC21ISP = lpc21isp
+LPC21ISP_PORT = /dev/ttyUSB0
+LPC21ISP_BAUD = 115200
+LPC21ISP_CLK_KHZ = 14746
 
 LPC810_DIR = ..
 LPC810_LIB =  $(LPC810_DIR)/lib
@@ -97,3 +101,12 @@ clean:
 	@$(OBJCOPY) --strip-unneeded -O ihex $(FILENAME).axf $(FILENAME).hex
 	-@echo "Generating $(FILENAME).bin"
 	@$(OBJCOPY) --strip-unneeded -O binary $(FILENAME).axf $(FILENAME).bin
+
+
+upload_serial:
+	$(LPC21ISP) $(FILENAME).hex $(LPC21ISP_PORT) $(LPC21ISP_BAUD) $(LPC21ISP_CLK_KHZ)
+
+size:
+	$(SIZE) out.axf
+
+
