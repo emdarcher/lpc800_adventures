@@ -3,23 +3,33 @@ OPTIMIZATION = s
 # lpc810 / lpc811 / lpc812
 MCU=lpc811
 
+BASEDIR = ..
 #########################################################################
 PROJECT=template
-LDSCRIPT=core/$(MCU).ld
+LDSCRIPT=$(BASEDIR)/core/$(MCU).ld
+
 
 LPC21ISP = lpc21isp
 LPC21ISP_PORT = /dev/ttyUSB0
 LPC21ISP_BAUD = 115200
 LPC21ISP_CLK_KHZ = 30000
 
-SRC=$(wildcard core/*.c) $(wildcard *.c) 
+COREDIR = $(BASEDIR)/core
+DRIVERDIR = $(BASEDIR)/drivers
 
-OBJECTS=$(patsubst %,.bin/%,$(SRC:.c=.o))
-DEPS=$(patsubst %,.bin/%,$(SRC:.c=.d))
-LSTFILES=$(patsubst %,.bin/%,$(SRC:.c=.lst))
+SRC=$(wildcard  $(BASEDIR)/core/*.c) $(wildcard *.c) 
+
+#OBJECTS=$(patsubst %,.bin/%,$(abspath $(SRC:.c=.o)))
+#DEPS=$(patsubst %,.bin/%,$(abspath (SRC:.c=.d)))
+#LSTFILES=$(patsubst %,.bin/%,$(abspath $(SRC:.c=.lst)))
+OBJECTS=$(patsubst %,.bin%,$(realpath $(SRC:.c=.o)))
+DEPS=$(patsubst %,.bin%,$(realpath (SRC:.c=.d)))
+LSTFILES=$(patsubst %,.bin%,$(realpath $(SRC:.c=.lst)))
+
+#SRC+=$(addprefix $(BASEDIR)/, 
 
 #  Compiler Options
-GCFLAGS = -std=gnu99  -mcpu=cortex-m0plus.small-multiply -mthumb -O$(OPTIMIZATION) -I. -Icore -Idrivers/inc
+GCFLAGS = -std=gnu99  -mcpu=cortex-m0plus.small-multiply -mthumb -O$(OPTIMIZATION) -I. -I$(COREDIR) -I$(DRIVERDIR)/inc
 # Warnings
 GCFLAGS += -Wno-strict-aliasing -Wstrict-prototypes -Wundef -Wall -Wextra -Wunreachable-code 
 # Optimizazions
