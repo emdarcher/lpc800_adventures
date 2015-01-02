@@ -60,12 +60,14 @@ GCFLAGS += -Wa,-adhlns=$(<:.c=.lst) -g
 
 LDFLAGS = -T$(LDSCRIPT) -nostartfiles  -Wl,--gc-section 
 
+NMFLAGS = -n -S 
+
 #  Compiler/Linker Paths
 GCC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 REMOVE = rm -f
 SIZE = arm-none-eabi-size
-
+NM = arm-none-eabi-nm
 #########################################################################
 
 #-include $(DEPS)
@@ -148,6 +150,9 @@ size: $(PROJECT).elf
 
 upload_serial:
 	$(LPC21ISP) -bin $(PROJECT).bin $(LPC21ISP_PORT) $(LPC21ISP_BAUD) $(LPC21ISP_CLK_KHZ)
+
+mem_use:
+	$(NM) $(NMFLAGS) $(PROJECT).elf
 
 .PHONY : clean all flash stats debug
 
