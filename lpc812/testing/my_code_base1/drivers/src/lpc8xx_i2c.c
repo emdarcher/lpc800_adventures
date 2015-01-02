@@ -35,9 +35,16 @@
 #include "lpc8xx_nmi.h"
 #include "lpc8xx_i2c.h"
 
+/* change this definition in the lpc8xx_i2c.h file */
+#if !I2C_PUT_BUFFERS_IN_HEADER 
 extern volatile uint8_t I2CSlaveTXBuffer[I2C_BUFSIZE];
 extern volatile uint8_t I2CSlaveRXBuffer[I2C_BUFSIZE];
 extern volatile uint32_t I2CMonBuffer[I2C_MONBUFSIZE];
+#else
+ volatile uint8_t I2CSlaveTXBuffer[I2C_BUFSIZE];
+ volatile uint8_t I2CSlaveRXBuffer[I2C_BUFSIZE];
+ volatile uint32_t I2CMonBuffer[I2C_MONBUFSIZE];
+#endif
 
 volatile uint32_t I2CStatus;
 

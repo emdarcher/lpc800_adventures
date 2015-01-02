@@ -132,6 +132,15 @@ extern "C"
 #define STAT_EVTIMEOUT		(1 << 24)
 #define STAT_SCLTIMEOUT		(1 << 25)
 
+#define I2C_PUT_BUFFERS_IN_HEADER 0
+#if I2C_PUT_BUFFERS_IN_HEADER 
+/* moved from the .c file */
+extern volatile uint8_t I2CSlaveTXBuffer[I2C_BUFSIZE];
+extern volatile uint8_t I2CSlaveRXBuffer[I2C_BUFSIZE];
+extern volatile uint32_t I2CMonBuffer[I2C_MONBUFSIZE];
+#endif
+
+
 void I2C_IRQHandler(void);
 extern void I2C_MstInit( LPC_I2C_TypeDef *I2Cx, uint32_t div, uint32_t cfg, uint32_t dutycycle );
 extern void I2C_SlvInit( LPC_I2C_TypeDef *I2Cx, uint32_t addr, uint32_t cfg, uint32_t clkdiv );

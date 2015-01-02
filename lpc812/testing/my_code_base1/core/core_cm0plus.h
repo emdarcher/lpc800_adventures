@@ -1,4 +1,6 @@
-/**************************************************************************//**
+/*
+***************************************************************************
+
  * @file     core_cm0plus.h
  * @brief    CMSIS Cortex-M0+ Core Peripheral Access Layer Header File
  * @version  V3.20
@@ -6,7 +8,8 @@
  *
  * @note
  *
- ******************************************************************************/
+ *****************************************************************************
+*/
 /* Copyright (c) 2009 - 2013 ARM LIMITED
 
    All rights reserved.
@@ -128,8 +131,10 @@
 #endif
 
 #include <stdint.h>                      /* standard types definitions                      */
-#include <core_cmInstr.h>                /* Core Instruction Access                         */
-#include <core_cmFunc.h>                 /* Core Function Access                            */
+//#include <core_cmInstr.h>                /* Core Instruction Access                         */
+#include "core_cmInstr.h"                /* Core Instruction Access                         */
+//#include <core_cmFunc.h>                 /* Core Function Access                            */
+#include "core_cmFunc.h"                 /* Core Function Access                            */
 
 #endif /* __CORE_CM0PLUS_H_GENERIC */
 
