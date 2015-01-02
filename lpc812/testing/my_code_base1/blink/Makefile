@@ -6,7 +6,7 @@ MCU=lpc812
 
 BASEDIR = ..
 #########################################################################
-PROJECT=template
+PROJECT=main
 LDSCRIPT=$(BASEDIR)/core/$(MCU).ld
 
 
@@ -70,7 +70,7 @@ SIZE = arm-none-eabi-size
 
 #-include $(DEPS)
 
-all: $(PROJECT).bin
+all: $(PROJECT).bin size
 
 %.bin: %.elf
 	$(OBJCOPY) -R .stack -O binary $< $@
@@ -84,7 +84,8 @@ all: $(PROJECT).bin
 	$(GCC)  $(GCFLAGS) $(LDFLAGS) $(SRC) --output $@
 #	$(GCC)  $(GCFLAGS) $(LDFLAGS) $(OBJECTS) --output $@
 
-
+clean:
+	rm *.bin *.elf
 
 #
 #all: .bin .bin/core firmware.bin stats
@@ -133,8 +134,8 @@ all: $(PROJECT).bin
 size: $(PROJECT).elf
 	$(SIZE) $(PROJECT).elf
 
-flash: all
-	tools/isp.py
+#flash: all
+#	tools/isp.py
 #	-/Applications/lpcxpresso_5.1.2_2065/lpcxpresso/bin/dfu-util -d 0x471:0xdf55 -c 0 -t 2048 -R -D /Applications/lpcxpresso_5.1.2_2065/lpcxpresso/bin/LPCXpressoWIN.enc
 #	sleep 1
 #	/Applications/lpcxpresso_5.1.2_2065/lpcxpresso/bin/crt_emu_cm3_gen -wire=winusb -pLPC812 -vendor=NXP -flash-load-exec=firmware.bin
@@ -146,7 +147,7 @@ flash: all
 #
 
 upload_serial:
-	$(LPC21ISP) -bin firmware.bin $(LPC21ISP_PORT) $(LPC21ISP_BAUD) $(LPC21ISP_CLK_KHZ)
+	$(LPC21ISP) -bin $(PROJECT).bin $(LPC21ISP_PORT) $(LPC21ISP_BAUD) $(LPC21ISP_CLK_KHZ)
 
 .PHONY : clean all flash stats debug
 

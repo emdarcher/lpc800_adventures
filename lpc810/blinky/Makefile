@@ -92,8 +92,9 @@ all: $(FILENAME).bin
 #$@ #%.axf
 
 clean:
-	@rm -f *.o *.d
-	@rm -f $(FILENAME).axf $(FILENAME).hex $(FILENAME).bin
+	@rm -f *.o *.d 
+	@rm -f *.axf *.hex *.bin
+#	@rm -f $(FILENAME).axf $(FILENAME).hex $(FILENAME).bin
 
 %.bin:%.axf
 	-@echo ""
